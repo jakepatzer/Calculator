@@ -23,7 +23,7 @@ public class Main {
                 System.out.println("Please enter a valid expression\n");
             }
             else {
-                System.out.println(" = " + result.toString() + "\n");
+                System.out.println(" = " + result + "\n");
             }
 
         }
