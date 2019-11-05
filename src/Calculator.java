@@ -8,6 +8,9 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.Stack;
 
+/**
+ * A simple calculator class, which is capable of evaluating mathematical expressions
+ */
 public class Calculator {
 
     private static final char[] VALID_CHARS_ARRAY = {'(', ')', '*', '+', '-', '/', '.', '^'};
@@ -15,6 +18,9 @@ public class Calculator {
     private Set validChars;
     private DecimalFormat df;
 
+    /**
+     * Constructor
+     */
     public Calculator() {
         df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         df.setMaximumFractionDigits(340);
@@ -24,6 +30,13 @@ public class Calculator {
         }
     }
 
+    /**
+     * Evaluates the given expression, returning the result. Handles negative numbers, parentheses, and decimals.
+     * Negative numbers should be enclosed within parentheses.
+     *
+     * @param expr The expression to evaluate
+     * @return The result
+     */
     public Double calculate(String expr) {
 
         if (expr.length() == 0) return null;
