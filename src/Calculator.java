@@ -26,14 +26,14 @@ public class Calculator {
 
     public Double calculate(String expr) {
 
+        if (expr.length() == 0) return null;
+
         expr.replaceAll("\\s", "");
         if (expr.charAt(expr.length() - 1) == '=') {
             expr = expr.substring(0, expr.length() - 1);
         }
 
         if (!isValid(expr)) return null;
-
-        expr.replaceAll("\\)\\(", ")*(");
 
         for (int i = 0; i < expr.length() - 1; i++) {
             if (Character.isDigit(expr.charAt(i)) && expr.charAt(i + 1) == '(') {
@@ -43,6 +43,9 @@ public class Calculator {
             else if (expr.charAt(i) == ')' && Character.isDigit(expr.charAt(i + 1))) {
                 expr = expr.substring(0, i + 1) + "*" + expr.substring(i + 1);
                 i++;
+            }
+            else if (expr.charAt(i) == ')' && expr.charAt(i + 1) == '(') {
+                expr = expr.substring(0, i + 1) + "*" + expr.substring(i + 1);
             }
         }
 
@@ -91,6 +94,10 @@ public class Calculator {
         String result = evaluate(expr);
         if (result == null) return null;
 
+        if (result.charAt(0) == '(' && result.charAt(result.length() - 1) == ')') {
+            result = result.substring(1, result.length() - 1);
+        }
+
         try {
             return Double.parseDouble(result);
         } catch (NumberFormatException e) {
@@ -114,9 +121,23 @@ public class Calculator {
 
     private String evaluate(String expr) {
 
-        List<String> tokens = new ArrayList<>(Arrays.asList(expr.split("((?<=[-+*/^])|(?=[-+*/^]))")));
+        List<String> tokens = new ArrayList<>(Arrays.asList(expr.split("((?<=[-+*/^()])|(?=[-+*/^()]))")));
+
+        if (tokens.get(0).equals("-")) {
+            tokens.set(0, "-1");
+            tokens.add(1, "*");
+        }
 
         try {
+
+            for (int i = 0; i < tokens.size() - 3; i++) {
+                if (tokens.get(i).equals("(") && tokens.get(i + 1).equals("-") && tokens.get(i + 3).equals(")")) {
+                    tokens.remove(i);
+                    tokens.remove(i);
+                    tokens.set(i, "-" + tokens.get(i));
+                    tokens.remove(i + 1);
+                }
+            }
 
             for (int i = 0; i < tokens.size(); i++) {
                 if (tokens.get(i).equals("^")) {
@@ -146,6 +167,7 @@ public class Calculator {
                     double op1 = Double.parseDouble(tokens.get(i - 1));
                     double op2 = Double.parseDouble(tokens.get(i + 1));
                     double result = op1 / op2;
+                    if (op2 == 0) return null;
                     tokens.remove(i - 1);
                     tokens.remove(i - 1);
                     tokens.remove(i - 1);
@@ -178,7 +200,9 @@ public class Calculator {
             }
 
             if (tokens.size() != 1) return null;
-
+            if (Double.parseDouble(tokens.get(0)) < 0) {
+                return "(" + tokens.get(0) + ")";
+            }
             return tokens.get(0);
 
         } catch (NumberFormatException e) {
