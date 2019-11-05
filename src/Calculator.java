@@ -99,7 +99,7 @@ public class Calculator {
         }
 
         try {
-            return Double.parseDouble(result);
+            return Double.parseDouble(result) + 0.0;
         } catch (NumberFormatException e) {
             return null;
         }
