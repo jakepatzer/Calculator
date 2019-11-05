@@ -166,8 +166,8 @@ public class Calculator {
                 else if (tokens.get(i).equals("/")) {
                     double op1 = Double.parseDouble(tokens.get(i - 1));
                     double op2 = Double.parseDouble(tokens.get(i + 1));
-                    double result = op1 / op2;
                     if (op2 == 0) return null;
+                    double result = op1 / op2;
                     tokens.remove(i - 1);
                     tokens.remove(i - 1);
                     tokens.remove(i - 1);
