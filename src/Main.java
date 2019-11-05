@@ -7,7 +7,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Calculator calculator = new Calculator();
 
-        System.out.println("Please enter an expression to evaluate, or \"q\" to quit\n");
+        System.out.println("Please enter an expression to evaluate, \"h\" for help, or \"q\" to quit\n");
 
         while (true) {
 
@@ -17,10 +17,17 @@ public class Main {
                 break;
             }
 
+            if (input.equals("h")) {
+                System.out.println(" - Valid operators are: + - * / ^\n"
+                        + " - Decimals, negatives, and parentheses are all supported.\n"
+                        + " - Please enclose negatives in parentheses, e.g. \"2*(-1)\"\n");
+                continue;
+            }
+
             Double result = calculator.calculate(input);
 
             if (result == null) {
-                System.out.println("Please enter a valid expression\n");
+                System.out.println("Please enter a valid expression, or enter \"h\" for help\n");
             }
             else {
                 System.out.println(" = " + result + "\n");
