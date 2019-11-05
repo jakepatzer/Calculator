@@ -15,7 +15,7 @@ public class Calculator {
 
     private static final char[] VALID_CHARS_ARRAY = {'(', ')', '*', '+', '-', '/', '.', '^'};
 
-    private Set validChars;
+    private Set<Character> validChars;
     private DecimalFormat df;
 
     /**
@@ -24,7 +24,7 @@ public class Calculator {
     public Calculator() {
         df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         df.setMaximumFractionDigits(340);
-        validChars = new HashSet();
+        validChars = new HashSet<>();
         for (char c : VALID_CHARS_ARRAY) {
             validChars.add(c);
         }
